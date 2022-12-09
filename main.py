@@ -53,8 +53,10 @@ def main_handler():
         # if form filled in, greet them using this data
         songData = get_song_data_safe(loc)
         songs = []
+        # songs has all the information for title and release date
         for song in songData["response"]["hits"]:
             songs.append([song["result"]["full_title"], song["result"]["release_date_components"]])
+        print(songs)
         if songData is not None:
             title = "Which one came out first for %s?"%loc
             return render_template('homepagetemplate.html',
@@ -72,9 +74,17 @@ def main_handler():
     else:
         return render_template('homepagetemplate.html',page_title="Sunrise Sunset Form")
 
+def older(song1, song2):
+    if song1[1]["year"] < song2[1]["year"]:
+        return song1
+    elif song1[1]["month"] < song2[1]["month"]:
+        return song1
+
+
 if __name__ == "__main__":
     # Used when running locally only. 
 	# When deploying to Google AppEngine or PythonAnywhere,
     # a webserver process will serve your app. 
     app.run(host="localhost", port=8080, debug=True)#!/usr/bin/env python
 from flask import Flask, render_template, request
+

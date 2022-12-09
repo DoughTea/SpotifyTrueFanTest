@@ -35,4 +35,9 @@ for track in sp.playlist_tracks(playlist_URI)["items"]:
     #Popularity of the track
     track_pop = track["track"]["popularity"]
 
-    print(track_uri, track_name, artist_uri, artist_name, artist_pop, artist_genres, album, track_pop)
+    results = sp.current_user_recently_played()
+    for idx, item in enumerate(results['items']):
+        track = item['track']
+        print(idx, track['artists'][0]['name'], " – ", track['name'])
+
+    print(results)
