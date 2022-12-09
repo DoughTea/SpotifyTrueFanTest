@@ -6,10 +6,12 @@
   jQuery(document).ready(function() {
   $(".round1").on("click", function() {
     $(".round2").show();
+    $( ".round1" ).css('background', 'red');
   });
 
   $(".round2").on("click", function() {
     $(".round3").show();
+    $( ".round2" ).css('background', 'green');
   });
 
   $(".round3").on("click", function() {
