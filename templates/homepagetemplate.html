@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+.button3 {background-color: #f44336;} /* Red */
+</style>
+<title>{{page_title}}</title>
+</head>
+<body>
+<form action="/" method="get">
+    <label for="loc">Please enter an artists name (EX: Kendrick Lamar):  </label>
+    <input type="text"name="loc" /><br />
+    <input type="submit" value="Go" name="gobtn"/>
+ </form>
+{% if prompt %}
+<div class='formtitle'>{{prompt}}</div>
+{% elif songData %}
+<h2>{{page_title}}</h2>
+<table>
+    <button class="button button1">{{songData["response"]["hits"][0]["result"]["full_title"]}}</button>
+    <button class="button button2">Same release date</button>
+    <button class="button button1">{{songData["response"]["hits"][1]["result"]["full_title"]}}</button>
+</table>
+{% endif %}
+</body>
+</html>
