@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 cid = '00eb5624c52547b49144df266642f49e'
 secret = 'a605e0ac322740fba35a52a7dabfd9c7'
-#redirect_url='AndrewDoty.pythonanywhere.com'
+redirect_url='http://doughtea310.appspot.com/'
 
 client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
