@@ -4,11 +4,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   jQuery(document).ready(function() {
-  $(".round1").on("click", function() {
-    $(".round2").show();
-    $( ".round1" ).css('background', 'red');
-    $( ".round1" ).css('border', 'white');
-  });
+    $(".round1").on("click", function() {
+      $(".round2").show();
+      $.fn.myFunction = function() { 
+        date1 = "{{songs[0][1]}}";
+        date2 = "{{songs[1][1]}}";
+        if date1 > date2 {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      if myFunction() {
+        $( ".round2" ).css('background', 'green');
+        $( ".round2" ).css('border', 'white');
+      } else if myFunction() {
+        $( ".round1" ).css('background', 'red');
+        $( ".round1" ).css('border', 'white');
+      }
+
+    });
 
   $(".round2").on("click", function() {
     $(".round3").show();
@@ -19,7 +35,12 @@
   $(".round3").on("click", function() {
     $(".round4").show();
   });
+
+  $(".round4").on("click", function() {
+    $(".round5").show();
+  });
 });  
+
 </script>
 <style>
 
@@ -85,6 +106,11 @@
   <button class="button button1 round4">{{songData["response"]["hits"][6]["result"]["full_title"]}}</button>
   <button class="button button2 round4">Same release date</button>
   <button class="button button1 round4">{{songData["response"]["hits"][7]["result"]["full_title"]}}</button>
+</table>
+<table>
+  <button class="button button1 round5">{{songData["response"]["hits"][8]["result"]["full_title"]}}</button>
+  <button class="button button2 round5">Same release date</button>
+  <button class="button button1 round5">{{songData["response"]["hits"][9]["result"]["full_title"]}}</button>
 </table>
 {% endif %}
 </body>
