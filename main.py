@@ -2,8 +2,7 @@ import requests
 import json
 import urllib.request, urllib.error, urllib.parse, json
 from flask import Flask, render_template, request, session, redirect, url_for
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+import random
 
 def pretty(obj):
     return json.dumps(obj, sort_keys=True, indent=2)
@@ -110,7 +109,6 @@ def logout_handler():
     return redirect(url_for('main_handler'))
 
 
-
 @app.route("/")
 def main_handler():
     app.logger.info("In MainHandler")
@@ -129,10 +127,7 @@ def main_handler():
 @app.route("/quiz")
 def quiz():
     # Set the URL and headers for the request
-    
-    # TEST: ALSO WHERE THE ERROR IS=================================================================
-
-    url = "https://api.spotify.com/v1/me/top/artists?limit=1"
+    url = "https://api.spotify.com/v1/me/top/artists?limit=5"
     headers = {'Authorization': 'Bearer '+ session['access_token'], 
                 'Content-Type': 'application/json'}
     req = urllib.request.Request(
@@ -143,12 +138,41 @@ def quiz():
     response = urllib.request.urlopen(req)
     responseDict = response.read()
     artist1 = json.loads(responseDict)
-    artist = artist1['items'][0]['name']
-    
-    # END TEST  :
+    artists =[]
+    for art in artist1['items']:
+        artists.append(art['name'])
 
-    # artist = "kendrick lamar" # this will be the real top artist soon
-    # artist = response.read()
+    # The top  artists for the user in the last 6 months
+    artist = artists[random.randrange(0,4)]
+
+    # Artist ID
+    # url = "https://api.spotify.com/v1/artists/" + artistID
+    # headers = {'Authorization': 'Bearer '+ session['access_token'], 
+    #             'Content-Type': 'application/json'}
+    # req = urllib.request.Request(
+    #     url = url,
+    #     data = None,
+    #     headers = headers
+    # )
+    # response = urllib.request.urlopen(req)
+    # responseDict = response.read()
+    # images = json.loads(responseDict)
+    # artistImage = images['images'][0]['url']
+   
+    
+    # ARTIST PROFILE picture
+    # url = "https://api.spotify.com/v1/artists/" + artistID
+    # headers = {'Authorization': 'Bearer '+ session['access_token'], 
+    #             'Content-Type': 'application/json'}
+    # req = urllib.request.Request(
+    #     url = url,
+    #     data = None,
+    #     headers = headers
+    # )
+    # response = urllib.request.urlopen(req)
+    # responseDict = response.read()
+    # images = json.loads(responseDict)
+    # artistImage = images['images'][0]['url']
 
     if artist:
         songData = get_song_data_safe(artist)
@@ -156,7 +180,6 @@ def quiz():
         # songs has all the information for title and release date
         for song in songData["response"]["hits"]:
             songs.append([song["result"]["full_title"], song["result"]["release_date_components"]])
-        print(songs)
         if songData is not None:
             title = "Which one came out first for %s?"%artist
             return render_template('homepagetemplate.html',
@@ -206,6 +229,7 @@ def get_song_data_safe(search_term):
     return None
 
 
+# Returns the older song
 def older(song1, song2):
     if song1[1]["year"] < song2[1]["year"]:
         return song1
