@@ -132,19 +132,22 @@ def quiz():
     
     # TEST: ALSO WHERE THE ERROR IS=================================================================
 
-    # url = "https://api.spotify.com/v1/users/%s/top/artists"%session['user_id']
-    # headers = {'Authorization': 'Bearer '+ session['access_token']}
-    # req = urllib.request.Request(
-    #     url = url,
-    #     data = None,
-    #     headers = headers
-    # )
-    # response = urllib.request.urlopen(req)
-
+    url = "https://api.spotify.com/v1/me/top/artists?limit=1"
+    headers = {'Authorization': 'Bearer '+ session['access_token'], 
+                'Content-Type': 'application/json'}
+    req = urllib.request.Request(
+        url = url,
+        data = None,
+        headers = headers
+    )
+    response = urllib.request.urlopen(req)
+    responseDict = response.read()
+    artist1 = json.loads(responseDict)
+    artist = artist1['items'][0]['name']
     
     # END TEST  :
 
-    artist = "kendrick lamar" # this will be the real top artist soon
+    # artist = "kendrick lamar" # this will be the real top artist soon
     # artist = response.read()
 
     if artist:
