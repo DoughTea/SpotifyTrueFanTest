@@ -159,7 +159,7 @@ def quiz():
             return render_template('homepagetemplate.html',
                 page_title=title,
                 songData=songData,
-                artist = artist1
+                artist = artist
                 )
         else:
             return render_template('homepagetemplate.html',
