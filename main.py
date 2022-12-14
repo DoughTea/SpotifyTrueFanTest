@@ -2,10 +2,11 @@ import requests
 import json
 import urllib.request, urllib.error, urllib.parse, json
 from flask import Flask, render_template, request, session, redirect, url_for
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 
 def pretty(obj):
     return json.dumps(obj, sort_keys=True, indent=2)
-
 
 from secret import CLIENT_ID, CLIENT_SECRET
 GRANT_TYPE = 'authorization_code'
@@ -15,6 +16,11 @@ app = Flask(__name__)
 app.secret_key = CLIENT_SECRET
 
 ### STUFF FOR SPOTIFY START####
+
+# This is a code we'll use to crypotgraphically secure our sessions
+# I set it to CLIENT_SECRET for simplicity here. 
+
+### Helper functions ####
     
 ### This adds a header with the user's access_token to Spotify requests
 def spotifyurlfetch(url,access_token,params=None):
@@ -28,27 +34,6 @@ def spotifyurlfetch(url,access_token,params=None):
     return response.read()
 
 ### Handlers ###
-
-### this will handle our home page
-# WORK HERE 
-@app.route("/")
-def index():
-    if 'user_id' in session:
-        # if logged in, get their playlists
-
-        # url = "https://api.spotify.com/v1/users/%s/playlists"%session['user_id']
-        url = "	https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50"
-        # in the future, should make this more robust so it checks 
-        # if the access_token is still valid and retrieves a new one
-        # using refresh_token if not
-        response = json.loads(spotifyurlfetch(url,session['access_token']))
-        # playlists=response["items"]
-        topArtists = response["items"]
-    else:
-        playlists = None
-        topArtists = None
-        
-    return render_template('oauth.html',user=session,topArtists=topArtists)
 
 ### this handler will handle our authorization requests 
 @app.route("/auth/login")
@@ -99,18 +84,19 @@ def login_handler():
         session['refresh_token'] = refresh_token
         if profile.get('images') is not None:
             session['img'] = profile["images"][0]["url"]
-        
+
         ## okay, all done, send them back to the App's home page
-        return redirect(url_for('index'))
+        ## CHANGED THIS TO BRING THE USER BACK TO THE MY HOMEPAGE
+        return redirect(url_for('main_handler'))
     else:
         # not logged in yet-- send the user to Spotify to do that
         # This corresponds to STEP 1 in https://developer.spotify.com/web-api/authorization-guide/
         
-        args['redirect_uri']= request.base_url
+        args['redirect_uri']=request.base_url
         args['response_type']="code"
         #ask for the necessary permissions - 
         #see details at https://developer.spotify.com/web-api/using-scopes/
-        args['scope']="user-library-modify playlist-modify-private playlist-modify-public playlist-read-collaborative playlist-read-private"
+        args['scope']="user-library-modify playlist-modify-private playlist-modify-public playlist-read-collaborative playlist-read-private user-top-read"
         
         url = "https://accounts.spotify.com/authorize?" + urllib.parse.urlencode(args)
         return redirect(url)
@@ -121,8 +107,78 @@ def logout_handler():
     ## remove each key from the session!
     for key in list(session.keys()):
          session.pop(key)
-    return redirect(url_for('index')) 
+    return redirect(url_for('main_handler'))
 
+
+
+@app.route("/")
+def main_handler():
+    app.logger.info("In MainHandler")
+    
+    if "user_id" in session:  
+        try: 
+            url = "https://api.spotify.com/v1/users/%s/playlists"%session['user_id']
+            response = json.loads(spotifyurlfetch(url,session['access_token']))
+        except:
+            return logout_handler()
+        return redirect(url_for('quiz'))
+    else:
+        playlists = None
+        return render_template('oauth.html',user=session,playlists=playlists)
+
+@app.route("/quiz")
+def quiz():
+    # Set the URL and headers for the request
+    
+    # TEST: ALSO WHERE THE ERROR IS=================================================================
+
+    # url = "https://api.spotify.com/v1/users/%s/top/artists"%session['user_id']
+    # headers = {'Authorization': 'Bearer '+ session['access_token']}
+    # req = urllib.request.Request(
+    #     url = url,
+    #     data = None,
+    #     headers = headers
+    # )
+    # response = urllib.request.urlopen(req)
+
+    
+    # END TEST  :
+
+    artist = "kendrick lamar" # this will be the real top artist soon
+    # artist = response.read()
+
+    if artist:
+        songData = get_song_data_safe(artist)
+        songs = []
+        # songs has all the information for title and release date
+        for song in songData["response"]["hits"]:
+            songs.append([song["result"]["full_title"], song["result"]["release_date_components"]])
+        print(songs)
+        if songData is not None:
+            title = "Which one came out first for %s?"%artist
+            return render_template('homepagetemplate.html',
+                page_title=title,
+                songData=songData,
+                artist = artist1
+                )
+        else:
+            return render_template('homepagetemplate.html',
+                page_title="Artist Form - Error",
+                prompt="Something went wrong with the API Call")
+    elif artist=="":
+        return render_template('homepagetemplate.html',
+            page_title="Artist Form - Error",
+            prompt="We need a artist name to search for!")
+    else:
+        return render_template('homepagetemplate.html')
+
+    
+if __name__ == "__main__":
+    # Used when running locally only. 
+	# When deploying to Google AppEngine, a webserver process
+	# will serve your app. 
+    app.run(host="localhost", port=8080, debug=True)
+    
 # END OF SPOTIFY STUFF
 
 
@@ -146,39 +202,13 @@ def get_song_data_safe(search_term):
         app.logger.error("Reason: ", e.reason)
     return None
 
-@app.route("/")
-def main_handler():
-    app.logger.info("In MainHandler")
-    loc = request.args.get('loc')
-    if loc:
-        # if form filled in, greet them using this data
-        songData = get_song_data_safe(loc)
-        songs = []
-        # songs has all the information for title and release date
-        for song in songData["response"]["hits"]:
-            songs.append([song["result"]["full_title"], song["result"]["release_date_components"]])
-        print(songs)
-        if songData is not None:
-            title = "Which one came out first for %s?"%loc
-            return render_template('homepagetemplate.html',
-                page_title=title,
-                songData=songData
-                )
-        else:
-            return render_template('homepagetemplate.html',
-                page_title="Artist Form - Error",
-                prompt="Something went wrong with the API Call")                  
-    elif loc=="":
-        return render_template('homepagetemplate.html',
-            page_title="Artist Form - Error",
-            prompt="We need a artist name to search for!")
-    else:
-        return render_template('homepagetemplate.html',page_title="Sunrise Sunset Form")
 
 def older(song1, song2):
     if song1[1]["year"] < song2[1]["year"]:
         return song1
     elif song1[1]["month"] < song2[1]["month"]:
+        return song1
+    elif song1[1]["day"] < song2[1]["day"]:
         return song1
 
 

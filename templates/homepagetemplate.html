@@ -61,11 +61,7 @@
 <title>Song Quiz</title>
 </head>
 <body>
-<form action="/" method="get">
-    <label for="loc">Please enter an artists name (EX: Kendrick Lamar):  </label>
-    <input type="text"name="loc" />
-    <input type="submit" value="Go" name="gobtn"/>
- </form>
+<p>Yout top artist looks to be {{artist}}</p>
 {% if prompt %}
 <div class='formtitle'>{{prompt}}</div>
 {% elif songData %}
