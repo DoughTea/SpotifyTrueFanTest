@@ -215,11 +215,6 @@ $(".left3").on("click", function() {
   display: none;
 }
 
-.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 </style>
 <title>Song Quiz</title>
 </head>
@@ -228,8 +223,8 @@ $(".left3").on("click", function() {
 {% if prompt %}
 <div class='formtitle'>{{prompt}}</div>
 {% elif songs %}
-<h2 class = "center">{{page_title}}</h2>
-<table class = "center">
+<h2>{{page_title}}</h2>
+<table>
   <button class="button button1 round1 left">{{songs[0][0]}}</button>
   <button class="button button2 round1 middle">Same release date</button>
   <button class="button button1 round1 right">{{songs[1][0]}}</button>
