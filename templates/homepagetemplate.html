@@ -4,19 +4,43 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 jQuery(document).ready(function() {
-  $(".round1").on("click", function() {
-    $(".left").on("click", function() {
-      if ("{{songs[0][2]}}" == true) {
-        $( ".round1" ).css('background', 'green');
-        $( ".round1" ).css('border', 'white');
-      } else if ("{{songs[0][2]}}" == false) {
-        $( ".round1" ).css('background', 'red');
-        $( ".round1" ).css('border', 'white');
-      }
-    });
+
+  $(".left").on("click", function() {
+    if ("{{songs[0][2]}}" == "True") {
+      $( ".round1" ).css('background', 'green');
+      $( ".round1" ).css('border', 'white');
+    } else {
+      $( ".round1" ).css('background', 'red');
+      $( ".round1" ).css('border', 'white');
+    };
     
     $(".round2").show();
   });
+
+  $(".middle").on("click", function() {
+    if ("{{songs[0][2]}}" == "None") {
+      $( ".round1" ).css('background', 'green');
+      $( ".round1" ).css('border', 'white');
+    } else {
+      $( ".round1" ).css('background', 'red');
+      $( ".round1" ).css('border', 'white');
+    };
+    
+    $(".round2").show();
+  });
+
+  $(".right").on("click", function() {
+    if ("{{songs[0][2]}}" == "False") {
+      $( ".round1" ).css('background', 'green');
+      $( ".round1" ).css('border', 'white');
+    } else {
+      $( ".round1" ).css('background', 'red');
+      $( ".round1" ).css('border', 'white');
+    };
+    
+    $(".round2").show();
+  });
+
 
   $(".round2").on("click", function() {
     $(".round3").show();
@@ -66,20 +90,20 @@ jQuery(document).ready(function() {
 <title>Song Quiz</title>
 </head>
 <body>
-<p>Yout top artist looks to be {{artist}}</p>
+<p>Let's see how well you know your top artists</p>
 {% if prompt %}
 <div class='formtitle'>{{prompt}}</div>
 {% elif songs %}
 <h2>{{page_title}}</h2>
 <table>
-  <button class="button button1 round1">{{songs[0][0]}}</button>
-  <button class="button button2 round1">Same release date</button>
-  <button class="button button1 round1">{{songs[1][0]}}</button>
+  <button class="button button1 round1 left">{{songs[0][0]}}</button>
+  <button class="button button2 round1 middle">Same release date</button>
+  <button class="button button1 round1 right">{{songs[1][0]}}</button>
 </table>
 <table>
-<button class="button button1 round2">{{songs[2][0]}}</button>
-<button class="button button2 round2">Same release date</button>
-<button class="button button1 round2">{{songs[3][0]}}</button>
+<button class="button button1 round2 left">{{songs[2][0]}}</button>
+<button class="button button2 round2 middle">Same release date</button>
+<button class="button button1 round2 right">{{songs[3][0]}}</button>
 
 {% endif %}
 </body>

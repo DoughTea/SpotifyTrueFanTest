@@ -146,38 +146,40 @@ def quiz():
         artistsPhotos.append(photo['images'][0]["url"])
 
     # The top  artists for the user in the last 6 months
-    artist = artists[random.randrange(0,4)]
+    songs = []
+    # artist = artists[random.randrange(0,4)]
+    for artist in artists:
+        if artist:
+            songData = get_song_data_safe(artist)
+    
+            # songs has all the information for title and release date
+            i = 0
+            for song in songData["response"]["hits"]:
+                if i <=4:
+                    songs.append([song["result"]["full_title"], song["result"]["release_date_components"], False])
 
-    if artist:
-        songData = get_song_data_safe(artist)
-        songs = []
-        # songs has all the information for title and release date
-        i = 0
-        for song in songData["response"]["hits"]:
-            songs.append([song["result"]["full_title"], song["result"]["release_date_components"], False])
+    # songs[num] = [title,date,TF]
+    for i in range(0,len(songs)-1,2):
+        songs[i][2] = older(songs[i], songs[i+1])
+        songs[i+1][2] = not older(songs[i], songs[i+1])   
 
-        # songs[num] = [title,date,TF]
-        for i in range(0,len(songs)-1,2):
-            songs[i][2] = older(songs[i], songs[i+1])
-            songs[i+1][2] = not older(songs[i], songs[i+1])   
-
-        if songData is not None:
-            title = "Which one came out first for %s?"%artist
-            return render_template('homepagetemplate.html',
-                page_title=title,
-                songs=songs,
-                artist = artist
-                )
-        else:
-            return render_template('homepagetemplate.html',
-                page_title="Artist Form - Error",
-                prompt="Something went wrong with the API Call")
-    elif artist=="":
+    if songData is not None:
+        title = "Which one came out first?"
         return render_template('homepagetemplate.html',
-            page_title="Artist Form - Error",
-            prompt="We need a artist name to search for!")
-    else:
-        return render_template('homepagetemplate.html')
+            page_title=title,
+            songs=songs,
+            artist = artist
+            )
+    #     else:
+    #         return render_template('homepagetemplate.html',
+    #             page_title="Artist Form - Error",
+    #             prompt="Something went wrong with the API Call")
+    # elif artist=="":
+    #     return render_template('homepagetemplate.html',
+    #         page_title="Artist Form - Error",
+    #         prompt="We need a artist name to search for!")
+    # else:
+    #     return render_template('homepagetemplate.html')
 
     
 if __name__ == "__main__":
@@ -214,7 +216,8 @@ def get_song_data_safe(search_term):
 def older(song1, song2):
     song1Date = str(song1[1]["year"])+str(song1[1]["month"])+str(song1[1]["day"])
     song2Date = str(song2[1]["year"])+str(song2[1]["month"])+str(song2[1]["day"])
-
+    if song2Date == song1Date:
+        return None
     return int(''.join(i for i in song1Date if i.isdigit())) < int(''.join(i for i in song2Date if i.isdigit()))
 
 
