@@ -5,24 +5,14 @@
 <script>
   jQuery(document).ready(function() {
     $(".round1").on("click", function() {
-      $(".round2").show();
-      $.fn.myFunction = function() { 
-        date1 = "{{songs[0][1]}}";
-        date2 = "{{songs[1][1]}}";
-        if (date1 > date2) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      if (myFunction()) {
+      if ("{{song[0][2]}}" == true) {
         $( ".round2" ).css('background', 'green');
         $( ".round2" ).css('border', 'white');
-      } else {
+      } else if ("{{song[0][2]}}" == false) {
         $( ".round1" ).css('background', 'red');
         $( ".round1" ).css('border', 'white');
       }
+      $(".round2").show();
 
     });
 
