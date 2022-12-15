@@ -211,20 +211,10 @@ def get_song_data_safe(search_term):
 
 # Is the first song older?
 def older(song1, song2):
-    if song1[1]["year"] < song2[1]["year"]:
-        return True
-    elif song1[1]["year"] > song2[1]["year"]:
-        return False
-    elif song1[1]["month"] < song2[1]["month"]:
-        return True
-    elif song1[1]["month"] > song2[1]["month"]:
-        return False
-    elif song1[1]["day"] < song2[1]["day"]:
-        return True
-    elif song1[1]["day"] > song2[1]["day"]:
-        return False
-    else:
-        return False
+    song1Date = song1[1]["year"]+song1[1]["month"]+song1[1]["day"]
+    song2Date = song2[1]["year"]+song2[1]["month"]+song2[1]["day"]
+
+    return song1Date < song2Date
 
 
 if __name__ == "__main__":
