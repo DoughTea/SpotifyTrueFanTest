@@ -139,40 +139,16 @@ def quiz():
     responseDict = response.read()
     artist1 = json.loads(responseDict)
     artists =[]
+    artistsPhotos = []
     for art in artist1['items']:
         artists.append(art['name'])
+    for photo in artist1['items']['images']:
+        artistsPhotos.append(photo[0]["url"])
 
     # The top  artists for the user in the last 6 months
     artist = artists[random.randrange(0,4)]
 
-    # Artist ID
-    # url = "https://api.spotify.com/v1/artists/" + artistID
-    # headers = {'Authorization': 'Bearer '+ session['access_token'], 
-    #             'Content-Type': 'application/json'}
-    # req = urllib.request.Request(
-    #     url = url,
-    #     data = None,
-    #     headers = headers
-    # )
-    # response = urllib.request.urlopen(req)
-    # responseDict = response.read()
-    # images = json.loads(responseDict)
-    # artistImage = images['images'][0]['url']
-   
     
-    # ARTIST PROFILE picture
-    # url = "https://api.spotify.com/v1/artists/" + artistID
-    # headers = {'Authorization': 'Bearer '+ session['access_token'], 
-    #             'Content-Type': 'application/json'}
-    # req = urllib.request.Request(
-    #     url = url,
-    #     data = None,
-    #     headers = headers
-    # )
-    # response = urllib.request.urlopen(req)
-    # responseDict = response.read()
-    # images = json.loads(responseDict)
-    # artistImage = images['images'][0]['url']
 
     if artist:
         songData = get_song_data_safe(artist)
