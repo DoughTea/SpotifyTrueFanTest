@@ -2,7 +2,6 @@ import requests
 import json
 import urllib.request, urllib.error, urllib.parse, json
 from flask import Flask, render_template, request, session, redirect, url_for
-import random
 
 def pretty(obj):
     return json.dumps(obj, sort_keys=True, indent=2)
@@ -155,9 +154,9 @@ def quiz():
             # songs has all the information for title and release date
             i = 0
             for song in songData["response"]["hits"]:
-                if i <=4:
+                if i <= 3:
                     songs.append([song["result"]["full_title"], song["result"]["release_date_components"], False])
-
+                    i = i +1
     # songs[num] = [title,date,TF]
     for i in range(0,len(songs)-1,2):
         songs[i][2] = older(songs[i], songs[i+1])

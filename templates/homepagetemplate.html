@@ -41,7 +41,6 @@ jQuery(document).ready(function() {
     $(".round2").show();
   });
 
-
   $(".left2").on("click", function() {
     if ("{{songs[2][2]}}" == "True") {
       $( ".round2" ).css('background', 'green');
@@ -52,7 +51,6 @@ jQuery(document).ready(function() {
     };
 
     $(".round3").show();
-
   });
 
   $(".middle2").on("click", function() {
@@ -65,7 +63,6 @@ jQuery(document).ready(function() {
     };
 
     $(".round3").show();
-
   });
 
   $(".right2").on("click", function() {
@@ -78,9 +75,7 @@ jQuery(document).ready(function() {
     };
 
     $(".round3").show();
-
-  });
-});  
+  });  
 
 $(".left3").on("click", function() {
     if ("{{songs[4][2]}}" == "True") {
@@ -106,7 +101,7 @@ $(".left3").on("click", function() {
     $(".round4").show();
   });
 
-  $(".right").on("click", function() {
+  $(".right3").on("click", function() {
     if ("{{songs[4][2]}}" == "False") {
       $( ".round3" ).css('background', 'green');
       $( ".round3" ).css('border', 'white');
@@ -183,6 +178,7 @@ $(".left3").on("click", function() {
       $( ".round5" ).css('border', 'white');
     };    
   });
+});
 </script>
 <style>
 
@@ -215,10 +211,14 @@ $(".left3").on("click", function() {
 .button2 {background-color: #fff; border: 2px solid #008CBA;} /* Blue */
 .button3 {background-color: #f44336;} /* Red */
 
-.round2, .round3, .round4 {
+.round2, .round3, .round4, .round5 {
   display: none;
 }
 
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 </style>
 <title>Song Quiz</title>
@@ -228,8 +228,8 @@ $(".left3").on("click", function() {
 {% if prompt %}
 <div class='formtitle'>{{prompt}}</div>
 {% elif songs %}
-<h2>{{page_title}}</h2>
-<table>
+<h2 class = "center">{{page_title}}</h2>
+<table class = "center">
   <button class="button button1 round1 left">{{songs[0][0]}}</button>
   <button class="button button2 round1 middle">Same release date</button>
   <button class="button button1 round1 right">{{songs[1][0]}}</button>
