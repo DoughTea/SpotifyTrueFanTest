@@ -148,14 +148,18 @@ def quiz():
     # The top  artists for the user in the last 6 months
     artist = artists[random.randrange(0,4)]
 
-    
-
     if artist:
         songData = get_song_data_safe(artist)
         songs = []
         # songs has all the information for title and release date
+        i = 0
         for song in songData["response"]["hits"]:
-            songs.append([song["result"]["full_title"], song["result"]["release_date_components"]])
+            songs.append([song["result"]["full_title"], song["result"]["release_date_components"], False])
+
+        for i in range(0,len(songs)-1,2):
+            songs[i][2] = older(songs[i], songs[i+1])
+            songs[i+1][2] = not older(songs[i], songs[i+1])   
+
         if songData is not None:
             title = "Which one came out first for %s?"%artist
             return render_template('homepagetemplate.html',
@@ -205,14 +209,22 @@ def get_song_data_safe(search_term):
     return None
 
 
-# Returns the older song
+# Is the first song older?
 def older(song1, song2):
     if song1[1]["year"] < song2[1]["year"]:
-        return song1
+        return True
+    elif song1[1]["year"] > song2[1]["year"]:
+        return False
     elif song1[1]["month"] < song2[1]["month"]:
-        return song1
+        return True
+    elif song1[1]["month"] > song2[1]["month"]:
+        return False
     elif song1[1]["day"] < song2[1]["day"]:
-        return song1
+        return True
+    elif song1[1]["day"] > song2[1]["day"]:
+        return False
+    else:
+        return False
 
 
 if __name__ == "__main__":
