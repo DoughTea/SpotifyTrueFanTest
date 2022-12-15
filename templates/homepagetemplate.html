@@ -4,30 +4,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 jQuery(document).ready(function() {
+  $(".round1").on("hover", function() {
+    $(".left").on("click", function() {
+      if ("{{songs[0][2]}}" == "True") {
+        $( ".round1" ).css('background', 'green');
+        $( ".round1" ).css('border', 'white');
+      } else {
+        $( ".round1" ).css('background', 'red');
+        $( ".round1" ).css('border', 'white');
+      };
+      
+      $(".round2").show();
+    });
 
-  $(".left").on("click", function() {
-    if ("{{songs[0][2]}}" == "True") {
-      $( ".round1" ).css('background', 'green');
-      $( ".round1" ).css('border', 'white');
-    } else {
-      $( ".round1" ).css('background', 'red');
-      $( ".round1" ).css('border', 'white');
-    };
-    
-    $(".round2").show();
-  });
-
-  $(".middle").on("click", function() {
-    if ("{{songs[0][2]}}" == "None") {
-      $( ".round1" ).css('background', 'green');
-      $( ".round1" ).css('border', 'white');
-    } else {
-      $( ".round1" ).css('background', 'red');
-      $( ".round1" ).css('border', 'white');
-    };
-    
-    $(".round2").show();
-  });
+    $(".middle").on("click", function() {
+      if ("{{songs[0][2]}}" == "None") {
+        $( ".round1" ).css('background', 'green');
+        $( ".round1" ).css('border', 'white');
+      } else {
+        $( ".round1" ).css('background', 'red');
+        $( ".round1" ).css('border', 'white');
+      };
+      
+      $(".round2").show();
+    }
+    );
 
   $(".right").on("click", function() {
     if ("{{songs[0][2]}}" == "False") {
@@ -40,6 +41,7 @@ jQuery(document).ready(function() {
     
     $(".round2").show();
   });
+})
 
 
   $(".round2").on("click", function() {
