@@ -3,31 +3,25 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  jQuery(document).ready(function() {
-    $(".round1").on("click", function() {
-      if ("{{songs[0][2]}}" == true) {
-        $( ".round2" ).css('background', 'green');
-        $( ".round2" ).css('border', 'white');
-      } else if ("{{songs[0][2]}}" == false) {
+jQuery(document).ready(function() {
+  $(".round1").on("click", function() {
+    $(".left").on("click", function() {
+      if ("{{song[0][2]}}" == true) {
+        $( ".round1" ).css('background', 'green');
+        $( ".round1" ).css('border', 'white');
+      } else if ("{{song[0][2]}}" == false) {
         $( ".round1" ).css('background', 'red');
         $( ".round1" ).css('border', 'white');
       }
-      $(".round2").show();
-
     });
+    
+    $(".round2").show();
+  });
 
   $(".round2").on("click", function() {
     $(".round3").show();
     $( ".round2" ).css('background', 'green');
     $( ".round2" ).css('border', 'white');
-  });
-
-  $(".round3").on("click", function() {
-    $(".round4").show();
-  });
-
-  $(".round4").on("click", function() {
-    $(".round5").show();
   });
 });  
 
@@ -75,18 +69,19 @@
 <p>Yout top artist looks to be {{artist}}</p>
 {% if prompt %}
 <div class='formtitle'>{{prompt}}</div>
-{% elif songs %}
+{% elif songData %}
 <h2>{{page_title}}</h2>
 <table>
-  <button class="button button1 round1">{{songs[0][0]}}</button>
-  <button class="button button2 round1">Same release date</button>
-  <button class="button button1 round1">{{songs[1][0]}}</button>
+    <button class="button button1 round1 left">{{songData["response"]["hits"][0]["result"]["full_title"]}}</button>
+    <button class="button button2 round1 middle">Same release date</button>
+    <button class="button button1 round1 right">{{songData["response"]["hits"][1]["result"]["full_title"]}}</button>
 </table>
 <table>
-<button class="button button1 round2">{{songs[2][0]}}</button>
-<button class="button button2 round2">Same release date</button>
-<button class="button button1 round2">{{songs[3][0]}}</button>
+  <button class="button button1 round2 left">{{songData["response"]["hits"][2]["result"]["full_title"]}}</button>
+  <button class="button button2 round2 middle">Same release date</button>
+  <button class="button button1 round2 right">{{songData["response"]["hits"][3]["result"]["full_title"]}}</button>
 </table>
+
 {% endif %}
 </body>
 </html>
