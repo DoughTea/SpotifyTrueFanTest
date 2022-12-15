@@ -4,31 +4,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 jQuery(document).ready(function() {
-  $(".round1").on("hover", function() {
-    $(".left").on("click", function() {
-      if ("{{songs[0][2]}}" == "True") {
-        $( ".round1" ).css('background', 'green');
-        $( ".round1" ).css('border', 'white');
-      } else {
-        $( ".round1" ).css('background', 'red');
-        $( ".round1" ).css('border', 'white');
-      };
-      
-      $(".round2").show();
-    });
 
-    $(".middle").on("click", function() {
-      if ("{{songs[0][2]}}" == "None") {
-        $( ".round1" ).css('background', 'green');
-        $( ".round1" ).css('border', 'white');
-      } else {
-        $( ".round1" ).css('background', 'red');
-        $( ".round1" ).css('border', 'white');
-      };
-      
-      $(".round2").show();
-    }
-    );
+  $(".left").on("click", function() {
+    if ("{{songs[0][2]}}" == "True") {
+      $( ".round1" ).css('background', 'green');
+      $( ".round1" ).css('border', 'white');
+    } else {
+      $( ".round1" ).css('background', 'red');
+      $( ".round1" ).css('border', 'white');
+    };
+    
+    $(".round2").show();
+  });
+
+  $(".middle").on("click", function() {
+    if ("{{songs[0][2]}}" == "None") {
+      $( ".round1" ).css('background', 'green');
+      $( ".round1" ).css('border', 'white');
+    } else {
+      $( ".round1" ).css('background', 'red');
+      $( ".round1" ).css('border', 'white');
+    };
+    
+    $(".round2").show();
+  });
 
   $(".right").on("click", function() {
     if ("{{songs[0][2]}}" == "False") {
@@ -41,16 +40,149 @@ jQuery(document).ready(function() {
     
     $(".round2").show();
   });
-})
 
 
-  $(".round2").on("click", function() {
+  $(".left2").on("click", function() {
+    if ("{{songs[2][2]}}" == "True") {
+      $( ".round2" ).css('background', 'green');
+      $( ".round2" ).css('border', 'white');
+    } else {
+      $( ".round2" ).css('background', 'red');
+      $( ".round2" ).css('border', 'white');
+    };
+
     $(".round3").show();
-    $( ".round2" ).css('background', 'green');
-    $( ".round2" ).css('border', 'white');
+
+  });
+
+  $(".middle2").on("click", function() {
+    if ("{{songs[2][2]}}" == "True") {
+      $( ".round2" ).css('background', 'green');
+      $( ".round2" ).css('border', 'white');
+    } else {
+      $( ".round2" ).css('background', 'red');
+      $( ".round2" ).css('border', 'white');
+    };
+
+    $(".round3").show();
+
+  });
+
+  $(".right2").on("click", function() {
+    if ("{{songs[2][2]}}" == "True") {
+      $( ".round2" ).css('background', 'green');
+      $( ".round2" ).css('border', 'white');
+    } else {
+      $( ".round2" ).css('background', 'red');
+      $( ".round2" ).css('border', 'white');
+    };
+
+    $(".round3").show();
+
   });
 });  
 
+$(".left3").on("click", function() {
+    if ("{{songs[4][2]}}" == "True") {
+      $( ".round3" ).css('background', 'green');
+      $( ".round3" ).css('border', 'white');
+    } else {
+      $( ".round3" ).css('background', 'red');
+      $( ".round3" ).css('border', 'white');
+    };
+    
+    $(".round4").show();
+  });
+
+  $(".middle3").on("click", function() {
+    if ("{{songs[4][2]}}" == "None") {
+      $( ".round3" ).css('background', 'green');
+      $( ".round3" ).css('border', 'white');
+    } else {
+      $( ".round3" ).css('background', 'red');
+      $( ".round3" ).css('border', 'white');
+    };
+    
+    $(".round4").show();
+  });
+
+  $(".right").on("click", function() {
+    if ("{{songs[4][2]}}" == "False") {
+      $( ".round3" ).css('background', 'green');
+      $( ".round3" ).css('border', 'white');
+    } else {
+      $( ".round3" ).css('background', 'red');
+      $( ".round3" ).css('border', 'white');
+    };
+    
+    $(".round4").show();
+  });
+
+  $(".left4").on("click", function() {
+    if ("{{songs[6][2]}}" == "True") {
+      $( ".round4" ).css('background', 'green');
+      $( ".round4" ).css('border', 'white');
+    } else {
+      $( ".round4" ).css('background', 'red');
+      $( ".round4" ).css('border', 'white');
+    };
+    
+    $(".round5").show();
+  });
+
+  $(".middle4").on("click", function() {
+    if ("{{songs[6][2]}}" == "None") {
+      $( ".round4" ).css('background', 'green');
+      $( ".round4" ).css('border', 'white');
+    } else {
+      $( ".round4" ).css('background', 'red');
+      $( ".round4" ).css('border', 'white');
+    };
+    
+    $(".round5").show();
+  });
+
+  $(".right4").on("click", function() {
+    if ("{{songs[6][2]}}" == "False") {
+      $( ".round4" ).css('background', 'green');
+      $( ".round4" ).css('border', 'white');
+    } else {
+      $( ".round4" ).css('background', 'red');
+      $( ".round4" ).css('border', 'white');
+    };
+    
+    $(".round5").show();
+  });
+
+  $(".left5").on("click", function() {
+    if ("{{songs[8][2]}}" == "True") {
+      $( ".round5" ).css('background', 'green');
+      $( ".round5" ).css('border', 'white');
+    } else {
+      $( ".round5" ).css('background', 'red');
+      $( ".round5" ).css('border', 'white');
+    };
+  });
+
+  $(".middle5").on("click", function() {
+    if ("{{songs[8][2]}}" == "None") {
+      $( ".round5" ).css('background', 'green');
+      $( ".round5" ).css('border', 'white');
+    } else {
+      $( ".round5" ).css('background', 'red');
+      $( ".round5" ).css('border', 'white');
+    };
+  });
+
+  $(".right5").on("click", function() {
+    if ("{{songs[8][2]}}" == "False") {
+      $( ".round5" ).css('background', 'green');
+      $( ".round5" ).css('border', 'white');
+    } else {
+      $( ".round5" ).css('background', 'red');
+      $( ".round5" ).css('border', 'white');
+    };    
+  });
 </script>
 <style>
 
@@ -103,10 +235,25 @@ jQuery(document).ready(function() {
   <button class="button button1 round1 right">{{songs[1][0]}}</button>
 </table>
 <table>
-<button class="button button1 round2 left">{{songs[2][0]}}</button>
-<button class="button button2 round2 middle">Same release date</button>
-<button class="button button1 round2 right">{{songs[3][0]}}</button>
-
+<button class="button button1 round2 left2">{{songs[2][0]}}</button>
+<button class="button button2 round2 middle2">Same release date</button>
+<button class="button button1 round2 right2">{{songs[3][0]}}</button>
+</table>
+<table>
+  <button class="button button1 round3 left3">{{songs[4][0]}}</button>
+  <button class="button button2 round3 middle3">Same release date</button>
+  <button class="button button1 round3 right3">{{songs[5][0]}}</button>
+</table>
+<table>
+<button class="button button1 round4 left4">{{songs[6][0]}}</button>
+<button class="button button2 round4 middle4">Same release date</button>
+<button class="button button1 round4 right4">{{songs[7][0]}}</button>
+</table>
+<table>
+  <button class="button button1 round5 left5">{{songs[8][0]}}</button>
+  <button class="button button2 round5 middle5">Same release date</button>
+  <button class="button button1 round5 right5">{{songs[9][0]}}</button>
+</table>
 {% endif %}
 </body>
 </html>
