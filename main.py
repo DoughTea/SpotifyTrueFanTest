@@ -142,8 +142,8 @@ def quiz():
     artistsPhotos = []
     for art in artist1['items']:
         artists.append(art['name'])
-    for photo in artist1['items']['images']:
-        artistsPhotos.append(photo[0]["url"])
+    for photo in artist1['items']:
+        artistsPhotos.append(photo['images'][0]["url"])
 
     # The top  artists for the user in the last 6 months
     artist = artists[random.randrange(0,4)]
@@ -156,6 +156,7 @@ def quiz():
         for song in songData["response"]["hits"]:
             songs.append([song["result"]["full_title"], song["result"]["release_date_components"], False])
 
+        # songs[num] = [title,date,TF]
         for i in range(0,len(songs)-1,2):
             songs[i][2] = older(songs[i], songs[i+1])
             songs[i+1][2] = not older(songs[i], songs[i+1])   
@@ -164,7 +165,7 @@ def quiz():
             title = "Which one came out first for %s?"%artist
             return render_template('homepagetemplate.html',
                 page_title=title,
-                songData=songData,
+                songs=songs,
                 artist = artist
                 )
         else:
@@ -211,10 +212,10 @@ def get_song_data_safe(search_term):
 
 # Is the first song older?
 def older(song1, song2):
-    song1Date = song1[1]["year"]+song1[1]["month"]+song1[1]["day"]
-    song2Date = song2[1]["year"]+song2[1]["month"]+song2[1]["day"]
+    song1Date = str(song1[1]["year"])+str(song1[1]["month"])+str(song1[1]["day"])
+    song2Date = str(song2[1]["year"])+str(song2[1]["month"])+str(song2[1]["day"])
 
-    return song1Date < song2Date
+    return int(''.join(i for i in song1Date if i.isdigit())) < int(''.join(i for i in song2Date if i.isdigit()))
 
 
 if __name__ == "__main__":

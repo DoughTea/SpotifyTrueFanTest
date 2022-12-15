@@ -5,24 +5,14 @@
 <script>
   jQuery(document).ready(function() {
     $(".round1").on("click", function() {
-      $(".round2").show();
-      $.fn.myFunction = function() { 
-        date1 = "{{songs[0][1]}}";
-        date2 = "{{songs[1][1]}}";
-        if (date1 > date2) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      if (myFunction()) {
+      if ("{{songs[0][2]}}" == true) {
         $( ".round2" ).css('background', 'green');
         $( ".round2" ).css('border', 'white');
-      } else {
+      } else if ("{{songs[0][2]}}" == false) {
         $( ".round1" ).css('background', 'red');
         $( ".round1" ).css('border', 'white');
       }
+      $(".round2").show();
 
     });
 
@@ -85,32 +75,17 @@
 <p>Yout top artist looks to be {{artist}}</p>
 {% if prompt %}
 <div class='formtitle'>{{prompt}}</div>
-{% elif songData %}
+{% elif songs %}
 <h2>{{page_title}}</h2>
 <table>
-    <button class="button button1 round1">{{songData["response"]["hits"][0]["result"]["full_title"]}}</button>
-    <button class="button button2 round1">Same release date</button>
-    <button class="button button1 round1">{{songData["response"]["hits"][1]["result"]["full_title"]}}</button>
+  <button class="button button1 round1">{{songs[0][0]}}</button>
+  <button class="button button2 round1">Same release date</button>
+  <button class="button button1 round1">{{songs[1][0]}}</button>
 </table>
 <table>
-  <button class="button button1 round2">{{songData["response"]["hits"][2]["result"]["full_title"]}}</button>
-  <button class="button button2 round2">Same release date</button>
-  <button class="button button1 round2">{{songData["response"]["hits"][3]["result"]["full_title"]}}</button>
-</table>
-<table>
-  <button class="button button1 round3">{{songData["response"]["hits"][4]["result"]["full_title"]}}</button>
-  <button class="button button2 round3">Same release date</button>
-  <button class="button button1 round3">{{songData["response"]["hits"][5]["result"]["full_title"]}}</button>
-</table>
-<table>
-  <button class="button button1 round4">{{songData["response"]["hits"][6]["result"]["full_title"]}}</button>
-  <button class="button button2 round4">Same release date</button>
-  <button class="button button1 round4">{{songData["response"]["hits"][7]["result"]["full_title"]}}</button>
-</table>
-<table>
-  <button class="button button1 round5">{{songData["response"]["hits"][8]["result"]["full_title"]}}</button>
-  <button class="button button2 round5">Same release date</button>
-  <button class="button button1 round5">{{songData["response"]["hits"][9]["result"]["full_title"]}}</button>
+<button class="button button1 round2">{{songs[2][0]}}</button>
+<button class="button button2 round2">Same release date</button>
+<button class="button button1 round2">{{songs[3][0]}}</button>
 </table>
 {% endif %}
 </body>
